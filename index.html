@@ -86,13 +86,12 @@ const GC={CMRI:"#2a6fb0",SSPV:"#b5473a",RCI:"#2f8f5b",IND:"#a07d1c","D/S":"#7a4f
 const D=window.CHAPELS.map((d,i)=>({...d,i,exact:!!d.pr}));
 
 const $=id=>document.getElementById(id);
-const dark=matchMedia("(prefers-color-scheme: dark)").matches;
 const map=L.map("map",{zoomSnap:.5,worldCopyJump:false}).setView([39.2,-97],4.5);
-const street=L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",{subdomains:"abcd",maxZoom:20,attribution:"© OpenStreetMap contributors © CARTO"});
-const night=L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",{subdomains:"abcd",maxZoom:20,attribution:"© OpenStreetMap contributors © CARTO"});
+const street=L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:"© OpenStreetMap contributors"});
+const esri=L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",{maxZoom:19,attribution:"Tiles © Esri"});
 const sat=L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",{maxZoom:19,attribution:"Tiles © Esri"});
-(dark?night:street).addTo(map);
-L.control.layers({"Map":street,"Satellite":sat,"Dark":night},null,{position:"topright"}).addTo(map);
+street.addTo(map);
+L.control.layers({"Map":street,"Streets (Esri)":esri,"Satellite":sat},null,{position:"topright"}).addTo(map);
 L.control.scale({imperial:true,metric:false}).addTo(map);
 
 const cluster=L.markerClusterGroup({showCoverageOnHover:false,maxClusterRadius:42,spiderfyOnMaxZoom:true});
