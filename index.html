@@ -1,91 +1,168 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Traditional Latin Mass Chapels – US Map</title><meta name="color-scheme" content="light dark">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.Default.css">
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Traditional Latin Mass Chapels – United States</title>
+<meta name="color-scheme" content="light dark">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.Default.min.css">
 <style>
-
-:root{--bg:#faf8f4;--sf:#fff;--tx:#1f1d1a;--mu:#6b665e;--bd:#e3ddd2;--ac:#7a2e2e;--ac2:#f3e6e3;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#171513;--sf:#211e1b;--tx:#efe9df;--mu:#a39b8e;--bd:#38332d;--ac:#e0a0a0;--ac2:#3a2625;color-scheme:dark}}
-:root[data-theme="dark"]{--bg:#171513;--sf:#211e1b;--tx:#efe9df;--mu:#a39b8e;--bd:#38332d;--ac:#e0a0a0;--ac2:#3a2625;color-scheme:dark}
-html{scroll-padding-top:env(safe-area-inset-top,0px)}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.45 Georgia,"Times New Roman",serif}
-main{max-width:1100px;margin:0 auto;padding:18px 14px 40px}
-h1{font-size:24px;margin:0 0 2px}.sub{color:var(--mu);font-size:13px;margin:0 0 14px}
-.stats{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}.stat{background:var(--sf);border:1px solid var(--bd);border-radius:10px;padding:8px 14px}.stat b{font-size:22px;display:block;color:var(--ac)}.stat span{font-size:12px;color:var(--mu)}
-.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:10px 0}
-input[type=search]{flex:1;min-width:180px;padding:9px 12px;border:1px solid var(--bd);border-radius:8px;background:var(--sf);color:var(--tx);font:inherit}
-.chip,.vbtn,.clr{border:1px solid var(--bd);background:var(--sf);color:var(--tx);border-radius:999px;padding:5px 11px;font:13px system-ui,sans-serif;cursor:pointer}
-.chip i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px}.chip.off{opacity:.38}
-.vbtn.on{background:var(--ac);color:var(--bg);border-color:var(--ac)}
-.grid{display:grid;grid-template-columns:repeat(11,1fr);gap:4px;max-width:720px;margin:8px 0 4px}
-.t{aspect-ratio:1;border:1px solid var(--bd);border-radius:6px;background:var(--sf);color:var(--tx);font:600 12px system-ui,sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;padding:0}
-.t small{font-weight:400;font-size:10px;color:var(--mu)}.t.z{opacity:.45}.t.s{outline:2px solid var(--ac);background:var(--ac2)}
-.t.h1{background:#ecdcd8;color:#3b1d1d}.t.h2{background:#d9aaa3;color:#2b1010}.t.h3{background:#b8625a;color:#fff}.t.h4{background:#8a2f2f;color:#fff}.t small{color:inherit;opacity:.8}
-.card{background:var(--sf);border:1px solid var(--bd);border-radius:12px;padding:10px;margin-top:10px}
-svg{width:100%;height:auto;display:block;max-height:640px}
-.dot{cursor:pointer;stroke:var(--sf);stroke-width:1.5;vector-effect:non-scaling-stroke;opacity:.9}.dot.sel{stroke:var(--tx);stroke-width:3}.dot.dim{opacity:.2}
-.list{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:10px;margin-top:10px}
-.it{background:var(--sf);border:1px solid var(--bd);border-radius:10px;padding:11px 13px;cursor:pointer}.it.sel{border-color:var(--ac);box-shadow:0 0 0 2px var(--ac2)}
-.it h3{margin:0;font-size:16px}.it .c{color:var(--mu);font:12px system-ui,sans-serif;margin:2px 0 6px}.it p{margin:2px 0;font-size:13.5px}
+:root{--bg:#faf8f4;--sf:#fff;--tx:#1f1d1a;--mu:#6b665e;--bd:#e3ddd2;--ac:#7a2e2e;--ac2:#f3e6e3}
+@media(prefers-color-scheme:dark){:root{--bg:#171513;--sf:#211e1b;--tx:#efe9df;--mu:#a39b8e;--bd:#38332d;--ac:#e0a0a0;--ac2:#3a2625;color-scheme:dark}}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--tx);font:15px/1.45 Georgia,"Times New Roman",serif}
+#app{display:grid;grid-template-columns:400px 1fr;height:100dvh}
+#side{display:flex;flex-direction:column;min-height:0;border-right:1px solid var(--bd);background:var(--bg)}
+#head{padding:14px 14px 10px;border-bottom:1px solid var(--bd)}
+h1{font-size:20px;margin:0 0 2px}
+.sub{color:var(--mu);font-size:12px;margin:0 0 10px;font-family:system-ui,sans-serif}
+.stats{display:flex;gap:8px;margin-bottom:10px;font-family:system-ui,sans-serif}
+.stat{flex:1;background:var(--sf);border:1px solid var(--bd);border-radius:10px;padding:6px 10px}
+.stat b{display:block;font-size:19px;color:var(--ac)}.stat span{font-size:11px;color:var(--mu)}
+.row{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:8px}
+input[type=search],select{flex:1;min-width:120px;padding:9px 12px;border:1px solid var(--bd);border-radius:8px;background:var(--sf);color:var(--tx);font:14px system-ui,sans-serif}
+button{font:13px system-ui,sans-serif;cursor:pointer;color:var(--tx)}
+.chip,.btn{border:1px solid var(--bd);background:var(--sf);border-radius:999px;padding:5px 11px}
+.chip i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px}
+.chip.off{opacity:.38}
+.btn.pri{background:var(--ac);color:var(--bg);border-color:var(--ac)}
+#list{flex:1;overflow:auto;padding:10px 12px 24px;-webkit-overflow-scrolling:touch}
+.rc{font:600 12px system-ui,sans-serif;color:var(--mu);margin:2px 2px 8px}
+.it{background:var(--sf);border:1px solid var(--bd);border-radius:10px;padding:10px 12px;margin-bottom:8px;cursor:pointer}
+.it:hover,.it.sel{border-color:var(--ac)}
+.it h3{margin:0;font-size:15px}
+.it .c{color:var(--mu);font:12px system-ui,sans-serif;margin:2px 0 4px}
+.it p{margin:1px 0;font-size:13px}
 .b{display:inline-block;font:600 10px system-ui,sans-serif;color:#fff;border-radius:4px;padding:1px 6px;margin-left:6px;vertical-align:middle}
-.note{font-size:12px;color:var(--mu);margin-top:18px}.hd{display:flex;justify-content:space-between;align-items:center;margin-top:14px;font:600 14px system-ui,sans-serif}
-
-#map{height:540px;border-radius:12px;border:1px solid var(--bd);margin-top:12px;z-index:0}
-.leaflet-popup-content{font:13px/1.4 system-ui,sans-serif;color:#222;margin:10px 12px}.leaflet-popup-content h3{margin:0 0 2px;font-size:15px}
-.pop a{display:inline-block;margin:6px 8px 0 0;color:#7a2e2e;font-weight:600}
-.dist{float:right;font:600 12px system-ui,sans-serif;color:var(--ac)}.apx{color:var(--mu);font-size:11.5px}
-@media(max-width:600px){#map{height:420px}}
-</style></head><body><main>
-<h1>Traditional Latin Mass Chapels – United States</h1>
-<p class="sub">Sedevacantist Mass locations from the Lux Vera USA Directory (September 2026). Tap a state, zoom the map, or use “Near me.”</p>
-<div class="stats" id="st"></div>
-<div class="row"><input type="search" id="q" placeholder="Search city, chapel, priest…" aria-label="Search"><button class="clr" id="near">📍 Near me</button><button class="clr" id="clr">Clear filters</button></div>
-<div class="row" id="ch"></div>
-<div class="grid" id="gr"></div>
-<div id="map"></div>
-<div class="hd"><span id="rc"></span></div>
-<div class="list" id="ls"></div>
-<p class="note">Many listings are unconfirmed and schedules change—always call ahead. Pins marked “approximate” are placed at city level. Groups: CMRI = Congregation of Mary Immaculate Queen · SSPV = Society of St. Pius V · RCI = Roman Catholic Institute · IND = independent · D/S = once affiliated with Bps. Dolan &amp; Sanborn · SST = Sociedad Sacerdotal Trento · SSJ = Sociedade Sacerdotal de São José. Source: ecclesia.luxvera.org/Directory-USA.html</p>
-</main>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js"></script>
+.dist{float:right;font:600 12px system-ui,sans-serif;color:var(--ac)}
+#map{height:100%;width:100%;background:#e8e4dc}
+.note{font:11px/1.4 system-ui,sans-serif;color:var(--mu);padding:10px 14px;border-top:1px solid var(--bd)}
+/* pins */
+.pin{filter:drop-shadow(0 1px 2px rgba(0,0,0,.45))}
+.pin.sel{transform:scale(1.25);transform-origin:50% 100%}
+/* popup */
+.leaflet-popup-content-wrapper{border-radius:12px;padding:0}
+.leaflet-popup-content{margin:12px 14px;font:14px/1.4 Georgia,serif;min-width:220px;color:#1f1d1a}
+.pp h3{margin:0 0 2px;font-size:16px}
+.pp .c{font:12px system-ui,sans-serif;color:#6b665e;margin-bottom:6px}
+.pp p{margin:2px 0;font-size:13px}
+.acts{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.acts a{font:600 12px system-ui,sans-serif;text-decoration:none;border-radius:999px;padding:6px 11px;border:1px solid #7a2e2e;color:#7a2e2e;background:#fff}
+.acts a.p{background:#7a2e2e;color:#fff}
+.approx{font:11px system-ui,sans-serif;color:#8a8478;margin-top:8px}
+.leaflet-control-layers{border-radius:10px}
+@media(max-width:820px){
+ #app{grid-template-columns:1fr;grid-template-rows:52dvh 1fr}
+ #map{order:-1}#side{border-right:0;border-top:1px solid var(--bd)}
+ .note{display:none}
+}
+</style></head><body>
+<div id="app">
+ <aside id="side">
+  <div id="head">
+   <h1>Traditional Latin Mass Chapels</h1>
+   <p class="sub">United States · Lux Vera USA Directory (Sept 2026)</p>
+   <div class="stats" id="st"></div>
+   <div class="row"><input type="search" id="q" placeholder="Search city, chapel, priest…" aria-label="Search"></div>
+   <div class="row"><select id="sel" aria-label="State"><option value="">All states</option></select>
+    <button class="btn pri" id="near">📍 Near me</button><button class="btn" id="clr">Reset</button></div>
+   <div class="row" id="ch"></div>
+  </div>
+  <div id="list"></div>
+  <p class="note">Many listings are unconfirmed and schedules change—always call ahead. Pins are placed at city level until a street address is added; use “Open in Google Maps” for the exact spot. Groups: CMRI = Congregation of Mary Immaculate Queen · SSPV = Society of St. Pius V · RCI = Roman Catholic Institute · IND = independent · D/S = once affiliated with Bps. Dolan &amp; Sanborn · SST = Sociedad Sacerdotal Trento · SSJ = Sociedade Sacerdotal de São José. Source: ecclesia.luxvera.org/Directory-USA.html</p>
+ </aside>
+ <div id="map"></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.min.js"></script>
 <script src="data.js"></script>
 <script>
 const SN="AL Alabama,AK Alaska,AZ Arizona,AR Arkansas,CA California,CO Colorado,CT Connecticut,DE Delaware,DC D.C.,FL Florida,GA Georgia,HI Hawaii,ID Idaho,IL Illinois,IN Indiana,IA Iowa,KS Kansas,KY Kentucky,LA Louisiana,ME Maine,MD Maryland,MA Massachusetts,MI Michigan,MN Minnesota,MS Mississippi,MO Missouri,MT Montana,NE Nebraska,NV Nevada,NH New Hampshire,NJ New Jersey,NM New Mexico,NY New York,NC North Carolina,ND North Dakota,OH Ohio,OK Oklahoma,OR Oregon,PA Pennsylvania,RI Rhode Island,SC South Carolina,SD South Dakota,TN Tennessee,TX Texas,UT Utah,VT Vermont,VA Virginia,WA Washington,WV West Virginia,WI Wisconsin,WY Wyoming".split(",").reduce((o,s)=>(o[s.slice(0,2)]=s.slice(3),o),{});
-const POS="AK0,0 ME10,0 WA0,1 ID1,1 MT2,1 ND3,1 MN4,1 WI5,1 MI7,1 NY8,1 VT9,1 NH10,1 OR0,2 NV1,2 WY2,2 SD3,2 IA4,2 IL5,2 IN6,2 OH7,2 PA8,2 NJ9,2 MA10,2 CA0,3 UT1,3 CO2,3 NE3,3 MO4,3 KY5,3 WV6,3 VA7,3 MD8,3 DE9,3 CT10,3 AZ1,4 NM2,4 KS3,4 AR4,4 TN5,4 NC6,4 SC7,4 DC8,4 RI10,4 OK3,5 LA4,5 MS5,5 AL6,5 GA7,5 HI0,6 TX3,6 FL8,6".split(" ");
 const GC={CMRI:"#2a6fb0",SSPV:"#b5473a",RCI:"#2f8f5b",IND:"#a07d1c","D/S":"#7a4fa3",SST:"#c2742a",SSJ:"#2f8f9a"};
-const D=window.CHAPELS;D.forEach((d,i)=>d.i=i);
+
+/* Data lives in data.js (window.CHAPELS). To make a pin exact, edit that chapel's
+   "la"/"lo" in data.js to its street coordinates and set "pr": true. */
+const D=window.CHAPELS.map((d,i)=>({...d,i,exact:!!d.pr}));
+
 const $=id=>document.getElementById(id);
-const map=L.map("map").setView([39.5,-98.5],4);
-L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:"&copy; OpenStreetMap contributors"}).addTo(map);
-const cl=L.markerClusterGroup({maxClusterRadius:40}).addTo(map),mk={};
-let st=null,q="",off=new Set(),me=null,meMk=null;
-const mi=(a,b)=>{const r=Math.PI/180,x=Math.sin((b[0]-a[0])*r/2)**2+Math.cos(a[0]*r)*Math.cos(b[0]*r)*Math.sin((b[1]-a[1])*r/2)**2;return 3959*2*Math.asin(Math.sqrt(x))};
-const dir=d=>`<a target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=${d.la},${d.lo}">Google Maps</a><a target="_blank" rel="noopener" href="https://maps.apple.com/?daddr=${d.la},${d.lo}">Apple Maps</a>`;
-const card=d=>`<h3>${d.n}<span class="b" style="background:${GC[d.g]}">${d.g}</span></h3><div class="c">${d.c}, ${d.s}${d.pr?"":' <span class="apx">· approximate pin</span>'}</div><p>${d.p}</p><p><b>Mass:</b> ${d.t}</p>`;
-const base=()=>D.filter(d=>!off.has(d.g)&&(!q||(d.c+d.n+d.p+d.s+(SN[d.s]||"")).toLowerCase().includes(q)));
-function fit(l){if(l.length)map.fitBounds(L.latLngBounds(l.map(d=>[d.la,d.lo])),{padding:[40,40],maxZoom:9})}
-function render(){
- const b=base(),cnt={};b.forEach(d=>cnt[d.s]=(cnt[d.s]||0)+1);
- let list=st?b.filter(d=>d.s===st):b;const mx=Math.max(1,...Object.values(cnt));
- if(me){list=list.map(d=>({...d,mi:mi(me,[d.la,d.lo])})).sort((a,c)=>a.mi-c.mi)}
- $("st").innerHTML=`<div class="stat"><b>${b.length}</b><span>Mass sites shown</span></div><div class="stat"><b>${Object.keys(cnt).length}</b><span>states with sites</span></div><div class="stat"><b>${new Set(b.map(d=>d.g)).size}</b><span>groups</span></div>`;
- $("ch").innerHTML=Object.keys(GC).map(g=>`<button class="chip${off.has(g)?" off":""}" data-g="${g}"><i style="background:${GC[g]}"></i>${g} (${D.filter(d=>d.g===g).length})</button>`).join("");
- $("gr").innerHTML=POS.map(s=>{const k=s.slice(0,2),[c,r]=s.slice(2).split(",").map(Number),v=cnt[k]||0,h=v?Math.min(4,1+Math.floor(3*v/mx)):0;return`<button class="t${v?" h"+h:" z"}${st===k?" s":""}" data-s="${k}" style="grid-column:${c+1};grid-row:${r+1}" title="${SN[k]}: ${v}">${k}<small>${v||""}</small></button>`}).join("");
- cl.clearLayers();
- (st?list:b).forEach(d=>{if(!mk[d.i]){mk[d.i]=L.circleMarker([d.la,d.lo],{radius:9,color:"#fff",weight:2,fillColor:GC[d.g],fillOpacity:.95}).bindPopup(()=>`<div class="pop">${card(D[d.i])}${dir(D[d.i])}</div>`)}cl.addLayer(mk[d.i])});
- $("rc").textContent=(st?`${SN[st]} — `:"All states — ")+`${list.length} site${list.length==1?"":"s"}${me?" (nearest first)":""}${st&&!list.length?" (none known in directory)":""}`;
- $("ls").innerHTML=list.map(d=>`<div class="it" data-i="${d.i}">${d.mi!=null?`<span class="dist">${Math.round(d.mi)} mi</span>`:""}${card(d)}</div>`).join("");
- return list;
+const dark=matchMedia("(prefers-color-scheme: dark)").matches;
+const map=L.map("map",{zoomSnap:.5,worldCopyJump:false}).setView([39.2,-97],4.5);
+const street=L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",{subdomains:"abcd",maxZoom:20,attribution:"© OpenStreetMap contributors © CARTO"});
+const night=L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",{subdomains:"abcd",maxZoom:20,attribution:"© OpenStreetMap contributors © CARTO"});
+const sat=L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",{maxZoom:19,attribution:"Tiles © Esri"});
+(dark?night:street).addTo(map);
+L.control.layers({"Map":street,"Satellite":sat,"Dark":night},null,{position:"topright"}).addTo(map);
+L.control.scale({imperial:true,metric:false}).addTo(map);
+
+const cluster=L.markerClusterGroup({showCoverageOnHover:false,maxClusterRadius:42,spiderfyOnMaxZoom:true});
+map.addLayer(cluster);
+
+const pinIcon=(color,sel)=>L.divIcon({className:"",iconSize:[30,40],iconAnchor:[15,38],popupAnchor:[0,-34],
+ html:`<svg class="pin${sel?" sel":""}" width="30" height="40" viewBox="0 0 30 40"><path d="M15 0C6.7 0 0 6.5 0 14.6 0 25 15 40 15 40s15-15 15-25.4C30 6.5 23.3 0 15 0z" fill="${color}" stroke="#fff" stroke-width="1.5"/><circle cx="15" cy="14.5" r="5.2" fill="#fff"/></svg>`});
+
+const phone=p=>{const m=p.match(/\(?\d{3}\)?[\s-]*\d{3}-\d{4}/);return m?m[0].replace(/\D/g,""):""};
+const generic=n=>/^(Mass site|Call)$/i.test(n)||!n;
+const gq=d=>generic(d.n)||d.exact?`${d.la},${d.lo}`:`${d.n}, ${d.c}, ${d.s}`;
+const links=d=>{const q=encodeURIComponent(gq(d)),t=phone(d.p);
+ return `<div class="acts"><a class="p" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=${q}">Directions</a>
+ <a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=${q}">Google Maps</a>
+ <a target="_blank" rel="noopener" href="https://maps.apple.com/?q=${q}">Apple Maps</a>${t?`<a href="tel:${t}">Call</a>`:""}</div>`};
+const badge=d=>`<span class="b" style="background:${GC[d.g]}">${d.g}</span>`;
+const popup=d=>`<div class="pp"><h3>${d.n}${badge(d)}</h3><div class="c">${d.c}, ${d.s}</div><p>${d.p}</p><p><b>Mass:</b> ${d.t}</p>${links(d)}${d.exact?"":'<div class="approx">Pin is approximate (city level).</div>'}</div>`;
+
+let q="",stt="",off=new Set(),sel=null,me=null,meLayer=null,markers={};
+const hav=(a,b,c,d)=>{const R=3958.8,r=Math.PI/180,x=(c-a)*r,y=(d-b)*r,h=Math.sin(x/2)**2+Math.cos(a*r)*Math.cos(c*r)*Math.sin(y/2)**2;return 2*R*Math.asin(Math.sqrt(h))};
+const filtered=()=>D.filter(d=>!off.has(d.g)&&(!stt||d.s===stt)&&(!q||(d.c+d.n+d.p+d.s+(SN[d.s]||"")).toLowerCase().includes(q)));
+
+D.forEach(d=>{const m=L.marker([d.la,d.lo],{icon:pinIcon(GC[d.g]),title:`${d.n} – ${d.c}, ${d.s}`,riseOnHover:true});
+ m.bindPopup(()=>popup(d),{maxWidth:300});
+ m.on("click",()=>{sel=d.i;paintList()});
+ m.on("popupclose",()=>{if(sel===d.i){sel=null;paintList()}});
+ markers[d.i]=m});
+
+function paintList(){
+ const b=filtered();
+ if(me)b.forEach(d=>d.mi=hav(me[0],me[1],d.la,d.lo)),b.sort((x,y)=>x.mi-y.mi);
+ $("list").innerHTML=`<div class="rc">${stt?SN[stt]+" — ":"All states — "}${b.length} site${b.length==1?"":"s"}${me?" · nearest first":""}</div>`+
+  b.map(d=>`<div class="it${sel===d.i?" sel":""}" data-i="${d.i}">${me?`<span class="dist">${Math.round(d.mi)} mi</span>`:""}<h3>${d.n}${badge(d)}</h3><div class="c">${d.c}, ${d.s}</div><p>${d.p}</p><p><b>Mass:</b> ${d.t}</p></div>`).join("");
 }
+function render(refit){
+ const b=filtered();
+ cluster.clearLayers();cluster.addLayers(b.map(d=>markers[d.i]));
+ const cnt=new Set(b.map(d=>d.s)).size;
+ $("st").innerHTML=`<div class="stat"><b>${b.length}</b><span>Mass sites</span></div><div class="stat"><b>${cnt}</b><span>states</span></div><div class="stat"><b>${new Set(b.map(d=>d.g)).size}</b><span>groups</span></div>`;
+ $("ch").innerHTML=Object.keys(GC).map(g=>`<button class="chip${off.has(g)?" off":""}" data-g="${g}"><i style="background:${GC[g]}"></i>${g} (${D.filter(d=>d.g===g).length})</button>`).join("");
+ paintList();
+ if(refit&&b.length){const bb=L.latLngBounds(b.map(d=>[d.la,d.lo]));map.fitBounds(bb.pad(.25),{maxZoom:stt?9:6,animate:true})}
+}
+function focus(i){
+ const d=D[i],m=markers[i];sel=i;
+ if(!cluster.hasLayer(m)){off.delete(d.g);render(false)}
+ cluster.zoomToShowLayer(m,()=>{map.setView([d.la,d.lo],Math.max(map.getZoom(),13),{animate:true});m.openPopup()});
+ paintList();
+}
+Object.keys(SN).sort((a,b)=>SN[a].localeCompare(SN[b])).forEach(k=>{if(D.some(d=>d.s===k))$("sel").add(new Option(SN[k],k))});
+
 document.addEventListener("click",e=>{
- const t=e.target.closest("[data-s],[data-g],[data-i],#clr,#near");if(!t||e.target.closest("a"))return;
- if(t.dataset.s){st=st===t.dataset.s?null:t.dataset.s;const l=render();st?fit(l):map.setView([39.5,-98.5],4);return}
- if(t.dataset.g){off.has(t.dataset.g)?off.delete(t.dataset.g):off.add(t.dataset.g);render();return}
- if(t.dataset.i){const m=mk[t.dataset.i];$("map").scrollIntoView({behavior:"smooth",block:"center"});cl.zoomToShowLayer(m,()=>m.openPopup());return}
- if(t.id==="clr"){st=null;q="";off.clear();me=null;$("q").value="";if(meMk)map.removeLayer(meMk);render();map.setView([39.5,-98.5],4);return}
- if(t.id==="near"){if(!navigator.geolocation)return alert("Location is not available in this browser.");navigator.geolocation.getCurrentPosition(p=>{me=[p.coords.latitude,p.coords.longitude];if(meMk)map.removeLayer(meMk);meMk=L.circleMarker(me,{radius:8,color:"#fff",weight:2,fillColor:"#1a73e8",fillOpacity:1}).bindTooltip("You are here").addTo(map);const l=render();fit(l.slice(0,5).concat([{la:me[0],lo:me[1]}]))},()=>alert("Could not get your location. Check your browser’s location permission."))}
+ const g=e.target.closest("[data-g]"),it=e.target.closest(".it[data-i]");
+ if(g){off.has(g.dataset.g)?off.delete(g.dataset.g):off.add(g.dataset.g);render(true)}
+ else if(it){focus(+it.dataset.i);if(innerWidth<=820)$("map").scrollIntoView({behavior:"smooth"})}
 });
-$("q").addEventListener("input",e=>{q=e.target.value.trim().toLowerCase();render()});
-render();
+$("q").addEventListener("input",e=>{q=e.target.value.trim().toLowerCase();render(true)});
+$("sel").addEventListener("change",e=>{stt=e.target.value;render(true)});
+$("clr").addEventListener("click",()=>{q="";stt="";off.clear();sel=null;me=null;if(meLayer){map.removeLayer(meLayer);meLayer=null}$("q").value="";$("sel").value="";map.closePopup();render(false);map.setView([39.2,-97],4.5)});
+$("near").addEventListener("click",()=>{
+ if(!navigator.geolocation){alert("Location isn't available in this browser.");return}
+ $("near").textContent="Locating…";
+ navigator.geolocation.getCurrentPosition(p=>{
+  me=[p.coords.latitude,p.coords.longitude];$("near").textContent="📍 Near me";
+  if(meLayer)map.removeLayer(meLayer);
+  meLayer=L.layerGroup([L.circle(me,{radius:p.coords.accuracy,color:"#1a73e8",weight:1,fillOpacity:.1}),L.circleMarker(me,{radius:8,color:"#fff",weight:3,fillColor:"#1a73e8",fillOpacity:1})]).addTo(map);
+  stt="";$("sel").value="";render(false);
+  const near=filtered().map(d=>({d,mi:hav(me[0],me[1],d.la,d.lo)})).sort((a,b)=>a.mi-b.mi).slice(0,4);
+  map.fitBounds(L.latLngBounds([me,...near.map(x=>[x.d.la,x.d.lo])]).pad(.3),{maxZoom:11});
+ },()=>{$("near").textContent="📍 Near me";alert("Couldn't get your location. Check that location access is allowed for this site.")},{enableHighAccuracy:true,timeout:10000});
+});
+render(true);
 </script></body></html>
